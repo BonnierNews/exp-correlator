@@ -1,5 +1,5 @@
 # exp-correlator
-[![Test application](https://github.com/BonnierNews/exp-correlator/actions/workflows/run-tests.yml/badge.svg?branch=master)](https://github.com/BonnierNews/exp-correlator/actions/workflows/run-tests.yml)
+[![Test application](https://github.com/BonnierNews/exp-correlator/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/BonnierNews/exp-correlator/actions/workflows/run-tests.yml)
 
 Keep track of correlation id through a series of async operations. Either using a handler or an Express middleware.
 
