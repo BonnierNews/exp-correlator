@@ -1,7 +1,8 @@
 # exp-correlator
 [![Test application](https://github.com/BonnierNews/exp-correlator/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/BonnierNews/exp-correlator/actions/workflows/run-tests.yml)
 
-Keep track of correlation id through a series of async operations. Either using a handler or an Express middleware.
+Keep track of correlation id through a series of async operations. Either using a handler or an Express middleware. Uses
+[async_hooks](https://nodejs.org/docs/latest-v16.x/api/async_hooks.html).
 
 ## Installation
 ```bash
@@ -30,7 +31,7 @@ const f = async function () {
   ...
 };
 
-await f();
+await attachCorrelationIdHandler(f);
 ```
 
 In the example above all the log messages produced by logThis can be grouped togheter by the correlation id without having
@@ -64,8 +65,20 @@ app.get("/", (req, res) => {
 });
 ```
 
+
 In the example above the middleware set the correlation id based on the incoming header, it will then
 be passed on when doing calls to `callToExternalSystem` and `logThis` without being explicitly passed.
+
+### Logging with pino
+To add correlationId when logging using [pino](https://www.npmjs.com/package/pino) do the following:
+```
+const pino = require("pino");
+
+const logger = pino({mixin: () => {return { correlationId: correlator.getId() };}});
+```
+
+In the example above the correct correlation id will be added each time a log function is called when
+the express middleware ot the async handler is used.
 
 ## Changelog
 Can be found [here](CHANGELOG.md).
