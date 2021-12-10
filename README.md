@@ -72,6 +72,7 @@ be passed on when doing calls to `callToExternalSystem` and `logThis` without be
 ### Logging with pino
 To add correlationId when logging using [pino](https://www.npmjs.com/package/pino) do the following:
 ```js
+const { getId } = require("exp-correlator");
 const pino = require("pino");
 const logger = pino({mixin: () => {return { correlationId: correlator.getId() };}});
 ```
