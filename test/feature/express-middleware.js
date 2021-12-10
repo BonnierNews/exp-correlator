@@ -63,13 +63,13 @@ Feature("express middleware", () => {
       response = await request(app).get("/");
     });
 
-    Then("the correlation id should be a guid availablee in the response", () => {
+    Then("the correlation id should be a guid available in the response", () => {
       const { correlationId } = response.body;
       expect(correlationId).to.match(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
     });
   });
 
-  Scenario("middleware generates and keeps track of correlation-ids during parallell processing", () => {
+  Scenario("middleware generates and keeps track of correlation-ids during parallel processing", () => {
     let app;
     Given("an express app using the middleware", () => {
       app = express();

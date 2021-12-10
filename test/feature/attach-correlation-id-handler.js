@@ -53,7 +53,7 @@ Feature("attach correlation id handler", () => {
     });
   });
 
-  Scenario("the correlation id handler keeps track of correlation ids when parallell processing", () => {
+  Scenario("the correlation id handler keeps track of correlation ids when parallel processing", () => {
     let f;
     Given("an epic chain of async functions", () => {
       const g = () => new Promise((resolve) => resolve(getId()));
@@ -67,7 +67,7 @@ Feature("attach correlation id handler", () => {
     });
 
     let outputs;
-    When("the chain of async functions are run multiple times in parallell with different correlation ids", async () => {
+    When("the chain of async functions are run multiple times in parallel with different correlation ids", async () => {
       outputs = await Promise.all([
         attachCorrelationIdHandler(f, "epic-correlation-id-1"),
         attachCorrelationIdHandler(f, "epic-correlation-id-2"),

@@ -34,11 +34,11 @@ const f = async function () {
 await attachCorrelationIdHandler(f);
 ```
 
-In the example above all the log messages produced by logThis can be grouped togheter by the correlation id without having
+In the example above all the log messages produced by logThis can be grouped together by the correlation id without having
 to pass the correlation id as an argument every time.
 
 ### Express middleware
-The Express middleware will set the correlation id from the `correlation-id` or `x-correlation-id` handler if avaiable. Otherwise a
+The Express middleware will set the correlation id from the `correlation-id` or `x-correlation-id` handler if available. Otherwise a
 new uuid v4 will be generated.
 
 ```js
