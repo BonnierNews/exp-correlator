@@ -4,6 +4,19 @@
 Keep track of correlation id through a series of async operations. Either using a handler or an Express middleware. Uses
 [async_hooks](https://nodejs.org/docs/latest-v16.x/api/async_hooks.html).
 
+
+## Table of contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Async handler](#async-handler)
+  - [Express middleware](#express-middleware)
+  - [Logging with pino](#logging-with-pino)
+  - [Making requests with exp-fetch](#making-requests-with-exp-fetch)
+- [Changelog](#changelog)
+- [License](#license)
+
+
 ## Installation
 ```bash
 npm install exp-correlator
@@ -78,7 +91,19 @@ const logger = pino({mixin: () => {return { correlationId: correlator.getId() };
 ```
 
 In the example above the correct correlation id will be added each time a log function is called when
-the express middleware ot the async handler is used.
+the express middleware or the async handler is used.
+
+### Making requests with exp-fetch
+To add a correlation id when fetching using [exp-fetch](https://www.npmjs.com/package/exp-fetch) do the
+following:
+```js
+const { getId } = require("exp-correlator");
+const fetchBuilder = require("exp-fetch);
+const fetch = fetchBuilder({ getCorrelationId: getId }).fetch;
+await fetch("http://foo.bar");
+```
+
+In the example above the correlation id will be added to the outgoing requests headers as `correlation-id`.
 
 ## Changelog
 Can be found [here](CHANGELOG.md).
