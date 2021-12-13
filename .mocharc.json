@@ -1,5 +1,4 @@
 {
-  "ignore": ["test/data/**"],
   "timeout": 1000,
   "reporter": "spec",
   "recursive": true,
