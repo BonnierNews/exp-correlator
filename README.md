@@ -51,7 +51,7 @@ In the example above all the log messages produced by logThis can be grouped tog
 to pass the correlation id as an argument every time.
 
 ### Express middleware
-The Express middleware will set the correlation id from the `correlation-id` or `x-correlation-id` handler if available. Otherwise a
+The Express middleware will set the correlation id from the `correlation-id` or `x-correlation-id` header if available. Otherwise a
 new uuid v4 will be generated.
 
 ```js
@@ -87,7 +87,7 @@ To add correlationId when logging using [pino](https://www.npmjs.com/package/pin
 ```js
 const { getId } = require("exp-correlator");
 const pino = require("pino");
-const logger = pino({mixin: () => {return { correlationId: correlator.getId() };}});
+const logger = pino({mixin: () => {return { correlationId: getId() };}});
 ```
 
 In the example above the correct correlation id will be added each time a log function is called when
