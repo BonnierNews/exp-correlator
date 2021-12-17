@@ -10,11 +10,22 @@ function getId() {
   return store.getStore()?.get(CORRELATION_ID_KEY);
 }
 
+function getCorrelationIdFromHeader(req) {
+  if (req.headers["x-correlation-id"]) {
+    return { id: req.headers["x-correlation-id"], fromHeader: "x-correlation-id" };
+  }
+  if (req.headers["correlation-id"]) {
+    return { id: req.headers["correlation-id"], fromHeader: "correlation-id" };
+  }
+  return { id: uuid(), fromHeader: "x-correlation-id" };
+}
+
 function middleware(req, res, next) {
-  const correlationId = req.headers["x-correlation-id"] || req.headers["correlation-id"] || uuid();
+  const correlationIdAndHeader = getCorrelationIdFromHeader(req);
 
   store.run(new Map(), () => {
-    store.getStore().set(CORRELATION_ID_KEY, correlationId);
+    res.set(correlationIdAndHeader.fromHeader, correlationIdAndHeader.id);
+    store.getStore().set(CORRELATION_ID_KEY, correlationIdAndHeader.id);
     next();
   });
 }
