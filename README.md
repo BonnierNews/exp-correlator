@@ -52,7 +52,8 @@ to pass the correlation id as an argument every time.
 
 ### Express middleware
 The Express middleware will set the correlation id from the `correlation-id` or `x-correlation-id` header if available. Otherwise a
-new uuid v4 will be generated.
+new uuid v4 will be generated. The middleware also assigns a correlation-id to the response, matching the header of incoming correlation-id if
+it's available. 
 
 ```js
 const { middleware, getId } = require("exp-correlator");
