@@ -99,4 +99,35 @@ Feature("express middleware", () => {
     });
   });
 
+  Scenario("middleware generates or re-uses request correlation-id when responding", () => {
+    let app;
+    Given("an express app using the middleware", () => {
+      app = express();
+      app.use(middleware);
+      app.get("/", (req, res) => {
+        const correlationId = getId();
+        res.json({ correlationId });
+      });
+    });
+
+    let responses;
+    When("multiple requests are made", async () => {
+      responses = await Promise.all([
+        request(app).get("/"),
+        request(app).get("/").set("x-correlation-id", "epic-x-correlation-id-1"),
+        request(app).get("/").set("correlation-id", "epic-correlation-id-1"),
+      ]);
+    });
+
+    Then("the correlation ids should be unique and the expected", () => {
+      const newCorrelationId = responses[0].headers["x-correlation-id"];
+      const xCorrelationId1 = responses[1].headers["x-correlation-id"];
+      const correlationId = responses[2].headers["correlation-id"];
+
+      expect(newCorrelationId).to.match(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
+      expect(xCorrelationId1).to.eql("epic-x-correlation-id-1");
+      expect(correlationId).to.eql("epic-correlation-id-1");
+    });
+  });
+
 });
