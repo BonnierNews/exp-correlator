@@ -1,5 +1,9 @@
 Changelog
 ---------
+# 0.0.4
+
+Only node 14 or later.
+
 # 0.0.3
 
 Middleware assigns correlation-id header in response
