@@ -5,6 +5,9 @@
     "type": "git",
     "url": "git@github.com:BonnierNews/exp-correlator.git"
   },
+  "engines": {
+    "node": ">=14"
+  },
   "description": "Correlation-id handler and Express middleware",
   "main": "index.js",
   "scripts": {
