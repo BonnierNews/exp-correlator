@@ -1,9 +1,12 @@
 {
   "name": "exp-correlator",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "git@github.com:BonnierNews/exp-correlator.git"
+  },
+  "engines": {
+    "node": ">=14"
   },
   "description": "Correlation-id handler and Express middleware",
   "main": "index.js",
