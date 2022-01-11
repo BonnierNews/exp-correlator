@@ -106,6 +106,40 @@ await fetch("http://foo.bar");
 
 In the example above the correlation id will be added to the outgoing requests headers as `correlation-id`.
 
+## Known issues 
+Using bodyParser after using correlation middleware will cause the async local storage to be undefined. 
+```js
+const { middleware, getId } = require("exp-correlator");
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
+const logThis = async function (msg) {
+  const correlationId = getId(); // correlationId will be null here
+  console.log({correlationId, msg});
+}
+
+app.use(middleware);
+
+// this won't work, bodyParser is used after correlation middleware for this route
+app.post("/", bodyParser.json(), (req, res) => {
+  const correlationId = getId();
+  await callToExternalSystem();
+  logThis("epic message");
+  res.json({ correlationId });
+  ...
+});
+
+// workaround add the correlation middleware after the bodyParser
+app.post("/", bodyParser.json(), middleware, (req, res) => {
+  const correlationId = getId();
+  await callToExternalSystem();
+  logThis("epic message");
+  res.json({ correlationId });
+  ...
+});
+
+```
+
 ## Changelog
 Can be found [here](CHANGELOG.md).
 
