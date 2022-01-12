@@ -1,6 +1,6 @@
 {
   "name": "exp-correlator",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": {
     "type": "git",
     "url": "git@github.com:BonnierNews/exp-correlator.git"
@@ -30,6 +30,7 @@
     "LICENSE"
   ],
   "devDependencies": {
+    "body-parser": "^1.19.1",
     "chai": "^4.3.4",
     "depsane": "^0.0.4",
     "eslint": "^8.3.0",

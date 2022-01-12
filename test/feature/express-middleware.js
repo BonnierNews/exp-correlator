@@ -3,6 +3,7 @@
 const { middleware, getId } = require("../../");
 const express = require("express");
 const request = require("supertest");
+const bodyParser = require("body-parser");
 
 Feature("express middleware", () => {
   Scenario("middleware uses correlation-id from the request", () => {
@@ -127,6 +128,37 @@ Feature("express middleware", () => {
       expect(newCorrelationId).to.match(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
       expect(xCorrelationId1).to.eql("epic-x-correlation-id-1");
       expect(correlationId).to.eql("epic-correlation-id-1");
+    });
+  });
+
+  Scenario("middleware priorities re-using already set response correlation-id", () => {
+    let app;
+    let firstCorrelationId;
+    Given("an express app using middleware setup to work around body issues", () => {
+      app = express();
+
+      app.use(middleware);
+      app.use((req, res, next) => {
+        firstCorrelationId = res.getHeader("x-correlation-id");
+        next();
+      });
+
+      app.post("/", bodyParser.json(), middleware, (req, res) => {
+        const correlationId = getId();
+        res.json({ correlationId });
+      });
+    });
+
+    let response;
+    When("request is made", async () => {
+      response = await request(app).post("/");
+    });
+
+    Then("the correlation id should be preserved between multiple middleware uses", () => {
+      const newCorrelationId = response.headers["x-correlation-id"];
+
+      expect(newCorrelationId).to.match(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
+      expect(newCorrelationId).to.eql(firstCorrelationId);
     });
   });
 

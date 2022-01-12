@@ -5,23 +5,33 @@ const { v4: uuid } = require("uuid");
 
 const store = new AsyncLocalStorage();
 const CORRELATION_ID_KEY = "correlationId";
+const X_HEADER_KEY = "x-correlation-id";
+const HEADER_KEY = "correlation-id";
 
 function getId() {
   return store.getStore()?.get(CORRELATION_ID_KEY);
 }
 
-function getCorrelationIdFromHeader(req) {
-  if (req.headers["x-correlation-id"]) {
-    return { id: req.headers["x-correlation-id"], fromHeader: "x-correlation-id" };
+function getCorrelationIdFromHeader(req, res) {
+  if (res.get(X_HEADER_KEY)) {
+    return { id: res.get(X_HEADER_KEY), fromHeader: X_HEADER_KEY };
   }
-  if (req.headers["correlation-id"]) {
-    return { id: req.headers["correlation-id"], fromHeader: "correlation-id" };
+  if (res.get(HEADER_KEY)) {
+    return { id: res.get(HEADER_KEY), fromHeader: HEADER_KEY };
   }
-  return { id: uuid(), fromHeader: "x-correlation-id" };
+
+  if (req.headers[X_HEADER_KEY]) {
+    return { id: req.headers[X_HEADER_KEY], fromHeader: X_HEADER_KEY };
+  }
+  if (req.headers[HEADER_KEY]) {
+    return { id: req.headers[HEADER_KEY], fromHeader: HEADER_KEY };
+  }
+
+  return { id: uuid(), fromHeader: X_HEADER_KEY };
 }
 
 function middleware(req, res, next) {
-  const correlationIdAndHeader = getCorrelationIdFromHeader(req);
+  const correlationIdAndHeader = getCorrelationIdFromHeader(req, res);
 
   store.run(new Map(), () => {
     res.set(correlationIdAndHeader.fromHeader, correlationIdAndHeader.id);

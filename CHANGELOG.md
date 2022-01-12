@@ -1,5 +1,9 @@
 Changelog
 ---------
+# 0.0.5
+
+Preserve correlation-id if exists in response headers.
+
 # 0.0.4
 
 Only node 14 or later.
