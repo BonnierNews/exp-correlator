@@ -1,6 +1,6 @@
 {
   "name": "exp-correlator",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "repository": {
     "type": "git",
     "url": "git@github.com:BonnierNews/exp-correlator.git"
@@ -34,7 +34,7 @@
     "chai": "^4.3.4",
     "depsane": "^0.0.4",
     "eslint": "^8.3.0",
-    "eslint-config-exp": "^0.0.9",
+    "eslint-config-exp": "^0.1.1",
     "express": "^4.17.1",
     "mocha": "^9.1.2",
     "mocha-cakes-2": "^3.3.0",

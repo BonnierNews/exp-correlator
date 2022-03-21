@@ -78,7 +78,7 @@ Feature("attach correlation id handler", () => {
     Then("the outputs should have the expected correlationIds", () => {
       expect(outputs).to.have.length(3);
       let i = 1;
-      for (const output of outputs ) {
+      for (const output of outputs) {
         expect(output).to.have.length(2);
         const [ correlationId1, correlationId2 ] = output;
         expect(correlationId1).to.eql(`epic-correlation-id-${i}`);
