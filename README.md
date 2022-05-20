@@ -117,7 +117,8 @@ In the example above the correlation id will be added to the outgoing requests h
 
 ## Known issues
 
-Using bodyParser after using correlation middleware will cause the async local storage to be undefined.
+Using `bodyParser` after using correlation middleware will cause the async local storage to be undefined.
+This applies to any middleware that is derived from `bodyParser` as well (i.e. `urlencoded`).
 
 ```js
 const { middleware, getId } = require("exp-correlator");

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.9
+
+Mention that `urlencoded` in known issues.
+
 ## 0.0.8
 
 Bump dependencies.
