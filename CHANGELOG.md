@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.0.0
+
+## Breaking
+
+- Drop node support for versions before 14.17
+
+## Additions
+
+- use crypto.randomUUID in favor of uuid
+- drop uuid dependency
+- 0 dependencies
+
 ## 0.0.9
 
 Mention `urlencoded` in known issues.

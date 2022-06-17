@@ -1,7 +1,7 @@
 "use strict";
 
 const { AsyncLocalStorage } = require("async_hooks");
-const { v4: uuid } = require("uuid");
+const { randomUUID } = require("crypto");
 
 const store = new AsyncLocalStorage();
 const CORRELATION_ID_KEY = "correlationId";
@@ -27,7 +27,7 @@ function getCorrelationIdFromHeader(req, res) {
     return { id: req.headers[HEADER_KEY], fromHeader: HEADER_KEY };
   }
 
-  return { id: uuid(), fromHeader: X_HEADER_KEY };
+  return { id: randomUUID(), fromHeader: X_HEADER_KEY };
 }
 
 function middleware(req, res, next) {
@@ -43,7 +43,7 @@ function middleware(req, res, next) {
 function attachCorrelationIdHandler(handler, correlationId) {
   return new Promise((resolve, reject) => {
     store.run(new Map(), async () => {
-      store.getStore().set(CORRELATION_ID_KEY, correlationId || uuid());
+      store.getStore().set(CORRELATION_ID_KEY, correlationId || randomUUID());
       try {
         const res = await handler();
         resolve(res);
