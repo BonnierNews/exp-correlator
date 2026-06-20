@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "git@github.com:BonnierNews/exp-correlator.git"
+    "url": "git+https://github.com/BonnierNews/exp-correlator.git"
   },
   "engines": {
     "node": ">=14.17"
